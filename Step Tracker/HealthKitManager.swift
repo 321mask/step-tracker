@@ -14,6 +14,9 @@ import HealthKit
     
     let types: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
     
+    var stepData: [HealthMetric] = []
+    var weightData: [HealthMetric] = []
+    
     func fetchStepCount() async {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: .now)
@@ -25,6 +28,9 @@ import HealthKit
         let stepsQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate, options: .cumulativeSum, anchorDate: endDate, intervalComponents: .init(day: 1))
         
         let stepCounts = try! await stepsQuery.result(for: store)
+        stepData = stepCounts.statistics().map {
+            .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
+        }
     }
     
     func fetchweightCount() async {
@@ -38,6 +44,9 @@ import HealthKit
         let weightQuery = HKStatisticsCollectionQueryDescriptor(predicate: samplePredicate, options: .mostRecent, anchorDate: endDate, intervalComponents: .init(day: 1))
         
         let weights = try! await weightQuery.result(for: store)
+        weightData = weights.statistics().map() {
+            .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .gram()) ?? 0)
+        }
     }
 //    func addSimulatorData() async {
 //        var mockSamples: [HKQuantitySample] = []
