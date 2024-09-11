@@ -48,9 +48,9 @@ import HealthKit
             .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .gram()) ?? 0)
         }
     }
-//    func addSimulatorData() async {
-//        var mockSamples: [HKQuantitySample] = []
-//        
+    func addSimulatorData() async {
+        var mockSamples: [HKQuantitySample] = []
+        
 //        for i in 0..<28 {
 //            let stepQuantity = HKQuantity(unit: .count(), doubleValue: .random(in: 4_000...20_000))
 //            let weightQuantity = HKQuantity(unit: .pound(), doubleValue: .random(in: (160 + Double(i/3)...165 + Double(i/3))))
@@ -63,7 +63,7 @@ import HealthKit
 //            mockSamples.append(stepSample)
 //            mockSamples.append(weightSample)
 //        }
-//        try! await store.save(mockSamples)
-//        print("Dummy Data sent up")
-//    }
+        try! await store.save(mockSamples)
+        print("Dummy Data sent up")
+    }
 }

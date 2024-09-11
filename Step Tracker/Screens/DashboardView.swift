@@ -67,6 +67,7 @@ struct DashboardView: View {
             .padding()
             .task {
                 await hkManager.fetchStepCount()
+                ChartMath.averageWeekdayCount(for: hkManager.stepData)
                 isShowingPermissionPriming = !hasSeenPermissionPriming
             }
             .navigationTitle("Dashboard")
