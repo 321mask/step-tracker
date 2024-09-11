@@ -19,6 +19,7 @@
 		88E082112C907E0B00CD8873 /* ChartDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E082102C907E0B00CD8873 /* ChartDataTypes.swift */; };
 		88E082162C907F6200CD8873 /* Date+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E082152C907F6200CD8873 /* Date+ext.swift */; };
 		88E082192C91784600CD8873 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 88E082182C91784600CD8873 /* Algorithms */; };
+		88E0821B2C917ED100CD8873 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E0821A2C917ED100CD8873 /* StepPieChart.swift */; };
 		88FD4DA12C74B255005D3BDB /* HealthKitPermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FD4DA02C74B255005D3BDB /* HealthKitPermissionPrimingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		88E0820E2C907D9D00CD8873 /* ChartMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartMath.swift; sourceTree = "<group>"; };
 		88E082102C907E0B00CD8873 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		88E082152C907F6200CD8873 /* Date+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ext.swift"; sourceTree = "<group>"; };
+		88E0821A2C917ED100CD8873 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
 		88FD4DA02C74B255005D3BDB /* HealthKitPermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPermissionPrimingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +109,7 @@
 				88E082082C90732100CD8873 /* StepBarChart.swift */,
 				88E0820E2C907D9D00CD8873 /* ChartMath.swift */,
 				88E082102C907E0B00CD8873 /* ChartDataTypes.swift */,
+				88E0821A2C917ED100CD8873 /* StepPieChart.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				88E0820F2C907D9D00CD8873 /* ChartMath.swift in Sources */,
 				8842E1712C81D64500735DBF /* HealthMetric.swift in Sources */,
 				88E082112C907E0B00CD8873 /* ChartDataTypes.swift in Sources */,
+				88E0821B2C917ED100CD8873 /* StepPieChart.swift in Sources */,
 				88E082162C907F6200CD8873 /* Date+ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
