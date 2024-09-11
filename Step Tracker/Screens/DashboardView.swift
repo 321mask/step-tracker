@@ -31,7 +31,6 @@ struct DashboardView: View {
     
     var isSteps: Bool { selectedStat == .steps }
     
-    
     var body: some View {
         NavigationStack {
             ScrollView {
