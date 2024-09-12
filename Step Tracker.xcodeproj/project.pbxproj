@@ -20,6 +20,8 @@
 		88E082162C907F6200CD8873 /* Date+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E082152C907F6200CD8873 /* Date+ext.swift */; };
 		88E082192C91784600CD8873 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 88E082182C91784600CD8873 /* Algorithms */; };
 		88E0821B2C917ED100CD8873 /* StepPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E0821A2C917ED100CD8873 /* StepPieChart.swift */; };
+		88E1D7442C92D823002F3E50 /* WeightLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1D7432C92D823002F3E50 /* WeightLineChart.swift */; };
+		88E1D7472C92DB13002F3E50 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E1D7462C92DB13002F3E50 /* MockData.swift */; };
 		88FD4DA12C74B255005D3BDB /* HealthKitPermissionPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FD4DA02C74B255005D3BDB /* HealthKitPermissionPrimingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 		88E082102C907E0B00CD8873 /* ChartDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTypes.swift; sourceTree = "<group>"; };
 		88E082152C907F6200CD8873 /* Date+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ext.swift"; sourceTree = "<group>"; };
 		88E0821A2C917ED100CD8873 /* StepPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepPieChart.swift; sourceTree = "<group>"; };
+		88E1D7432C92D823002F3E50 /* WeightLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightLineChart.swift; sourceTree = "<group>"; };
+		88E1D7462C92DB13002F3E50 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		88FD4DA02C74B255005D3BDB /* HealthKitPermissionPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPermissionPrimingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,9 +76,9 @@
 		8823EDCC2C6BA57200DEA8BA /* Step Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				88E1D7452C92DAFE002F3E50 /* Utilities */,
 				880D185A2C78CE650045B789 /* Step Tracker.entitlements */,
 				8823EDCD2C6BA57200DEA8BA /* Step_TrackerApp.swift */,
-				88E082122C907F2300CD8873 /* Extensions */,
 				88E0820D2C9076BF00CD8873 /* Manager */,
 				88E0820C2C9076B800CD8873 /* Model */,
 				88E0820B2C90766900CD8873 /* Charts */,
@@ -107,9 +111,10 @@
 			isa = PBXGroup;
 			children = (
 				88E082082C90732100CD8873 /* StepBarChart.swift */,
-				88E0820E2C907D9D00CD8873 /* ChartMath.swift */,
-				88E082102C907E0B00CD8873 /* ChartDataTypes.swift */,
 				88E0821A2C917ED100CD8873 /* StepPieChart.swift */,
+				88E0820E2C907D9D00CD8873 /* ChartMath.swift */,
+				88E1D7432C92D823002F3E50 /* WeightLineChart.swift */,
+				88E082102C907E0B00CD8873 /* ChartDataTypes.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -136,6 +141,15 @@
 				88E082152C907F6200CD8873 /* Date+ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		88E1D7452C92DAFE002F3E50 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				88E082122C907F2300CD8873 /* Extensions */,
+				88E1D7462C92DB13002F3E50 /* MockData.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,6 +231,7 @@
 				885D1DC12C6F4D6A009B6788 /* HealthDataListView.swift in Sources */,
 				8823EDD02C6BA57200DEA8BA /* DashboardView.swift in Sources */,
 				88E082092C90732100CD8873 /* StepBarChart.swift in Sources */,
+				88E1D7472C92DB13002F3E50 /* MockData.swift in Sources */,
 				8823EDCE2C6BA57200DEA8BA /* Step_TrackerApp.swift in Sources */,
 				880D185C2C78CFA70045B789 /* HealthKitManager.swift in Sources */,
 				88FD4DA12C74B255005D3BDB /* HealthKitPermissionPrimingView.swift in Sources */,
@@ -224,6 +239,7 @@
 				8842E1712C81D64500735DBF /* HealthMetric.swift in Sources */,
 				88E082112C907E0B00CD8873 /* ChartDataTypes.swift in Sources */,
 				88E0821B2C917ED100CD8873 /* StepPieChart.swift in Sources */,
+				88E1D7442C92D823002F3E50 /* WeightLineChart.swift in Sources */,
 				88E082162C907F6200CD8873 /* Date+ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
