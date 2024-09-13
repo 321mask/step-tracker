@@ -20,7 +20,6 @@ enum HealthMetricContext: CaseIterable, Identifiable {
             return "Weight"
         }
     }
-
 }
 
 struct DashboardView: View {
@@ -41,16 +40,25 @@ struct DashboardView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
-                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                    switch selectedStat {
+                    case .steps:
+                        StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
+                        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                    case .weight:
+                        WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
+                        WeightBarChart(chartData: ChartMath.averageDailyWeightDiff(for: hkManager.weightDiffData))
+                    }
                 }
             }
             .padding()
             .task {
                 await hkManager.fetchStepCount()
-                ChartMath.averageWeekdayCount(for: hkManager.stepData)
+                await hkManager.fetchweightCount()
+                await hkManager.fetchweightForDiffentials()
+//                await hkManager.addSimulatorData()
                 isShowingPermissionPriming = !hasSeenPermissionPriming
             }
+            
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in HealthDataListView(metric: metric)
             }
