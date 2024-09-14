@@ -64,6 +64,16 @@ import HealthKit
             .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .gram()) ?? 0)
         }
     }
+    func addStepData(for date: Date, value: Double) async {
+        let stepQuantity = HKQuantity(unit: .count(), doubleValue: value)
+        let stepSample = HKQuantitySample(type: HKQuantityType(.stepCount), quantity: stepQuantity, start: date, end: date)
+        try! await store.save(stepSample)
+    }
+    func addWeightData(for date: Date, value: Double) async {
+        let weightQuantity = HKQuantity(unit: .gram(), doubleValue: value)
+        let weightSample = HKQuantitySample(type: HKQuantityType(.bodyMass), quantity: weightQuantity, start: date, end: date)
+        try! await store.save(weightSample)
+    }
     func addSimulatorData() async {
         var mockSamples: [HKQuantitySample] = []
         

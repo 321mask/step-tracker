@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct HealthDataListView: View {
+    @Environment(HealthKitManager.self) private var hkManager
     @State var isShowingAddData = false
     @State var addDataDate: Date = .now
     @State var valuetoAdd: String = ""
     var metric: HealthMetricContext
+    var listData: [HealthMetric] {
+        metric == .steps ? hkManager.stepData : hkManager.weightData
+    }
     var body: some View {
-        List(0..<28) { i in
+        List(listData.reversed()) { data in
             HStack {
-                Text(Date(), format: .dateTime.day().month().year())
+                Text(data.date, format: .dateTime.day().month().year())
                 Spacer()
-                Text(10000, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
+                Text(data.value, format: .number.precision(.fractionLength(metric == .steps ? 0 : 1)))
             }
         }
         .navigationTitle(metric.title)
@@ -52,7 +56,18 @@ struct HealthDataListView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
-                        //do code
+                        Task {
+                            if metric == .steps {
+                                await hkManager.addStepData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
+                                await hkManager.fetchStepCount()
+                                isShowingAddData = false
+                            } else {
+                                await hkManager.addWeightData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
+                                await hkManager.fetchweightCount()
+                                await hkManager.fetchweightForDiffentials()
+                                isShowingAddData = false
+                            }
+                        }
                     }
                 }
             }
@@ -63,5 +78,6 @@ struct HealthDataListView: View {
 #Preview {
     NavigationStack {
         HealthDataListView(metric: .steps)
+            .environment(HealthKitManager())
     }
 }
