@@ -52,17 +52,27 @@ struct DashboardView: View {
             }
             .padding()
             .task {
-                await hkManager.fetchStepCount()
-                await hkManager.fetchweightCount()
-                await hkManager.fetchweightForDiffentials()
-//                await hkManager.addSimulatorData()
-                isShowingPermissionPriming = !hasSeenPermissionPriming
+                do {
+                    try await hkManager.fetchStepCount()
+                    try await hkManager.fetchweightCount()
+                    try await hkManager.fetchweightForDiffentials()
+                    //                await hkManager.addSimulatorData()
+                    
+                } catch STError.authNotDetermined {
+                    isShowingPermissionPriming = true
+                } catch STError.noData {
+                    print("no data error")
+                } catch STError.sharingDenied(let quantityType) {
+                    print("sharin denied for \(quantityType)")
+                } catch {
+                    print("unable to complete request")
+                }
             }
             
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in HealthDataListView(metric: metric)
             }
-            .sheet(isPresented: $isShowingPermissionPriming, onDismiss: {}, content: { HealthKitPermissionPrimingView(hasSeen: $hasSeenPermissionPriming) })
+            .sheet(isPresented: $isShowingPermissionPriming, onDismiss: {}, content: { HealthKitPermissionPrimingView() })
         }
         .tint(isSteps ? .pink : .indigo)
     }

@@ -19,7 +19,6 @@ add new step or weight data to Apple Health from this app. Your data is private 
     @Environment(HealthKitManager.self) private var hkManager
     @Environment(\.dismiss) private var dismiss
     @State private var isShowingHealthKitPermissions = false
-    @Binding var hasSeen: Bool
     
     var body: some View {
         VStack(spacing: 130) {
@@ -41,7 +40,6 @@ add new step or weight data to Apple Health from this app. Your data is private 
             .tint(.pink)
         }
         .padding(30)
-        .onAppear { hasSeen = true }
         .interactiveDismissDisabled()
         .healthDataAccessRequest(store: hkManager.store, shareTypes: hkManager.types, readTypes: hkManager.types, trigger: isShowingHealthKitPermissions) { result in
             switch result {
@@ -55,6 +53,6 @@ add new step or weight data to Apple Health from this app. Your data is private 
 }
 
 #Preview {
-    HealthKitPermissionPrimingView(hasSeen: .constant(true))
+    HealthKitPermissionPrimingView()
         .environment(HealthKitManager())
 }
