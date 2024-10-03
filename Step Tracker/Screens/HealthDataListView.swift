@@ -9,9 +9,11 @@ import SwiftUI
 
 struct HealthDataListView: View {
     @Environment(HealthKitManager.self) private var hkManager
-    @State var isShowingAddData = false
-    @State var addDataDate: Date = .now
-    @State var valuetoAdd: String = ""
+    @State private var isShowingAddData = false
+    @State private var addDataDate: Date = .now
+    @State private var valuetoAdd: String = ""
+    @State private var isShowingAlert = true
+    @State private var writeError: STError = .noData
     var metric: HealthMetricContext
     var listData: [HealthMetric] {
         metric == .steps ? hkManager.stepData : hkManager.weightData
@@ -48,6 +50,19 @@ struct HealthDataListView: View {
                 }
             }
             .navigationTitle(metric.title)
+            .alert(isPresented: $isShowingAlert, error: writeError) { writeError in
+                switch writeError {
+                case .authNotDetermined, .noData, .unableToCompleteRequest:
+                    EmptyView()
+                case .sharingDenied(let quantityType):
+                    Button("Settings") {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }
+                    Button("Cancel", role: .cancel) { }
+                }
+            } message: { writeError in
+                Text(writeError.failureReason)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Dismiss") {
@@ -59,13 +74,15 @@ struct HealthDataListView: View {
                         Task {
                             if metric == .steps {
                                 do {
-                                     try await hkManager.addStepData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
+                                    try await hkManager.addStepData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
                                     try await hkManager.fetchStepCount()
                                     isShowingAddData = false
                                 } catch STError.sharingDenied(let quantityType) {
-                                    print("Sharing denied for \(quantityType)")
+                                    writeError = .sharingDenied(quantityType: quantityType)
+                                    isShowingAlert = true
                                 } catch {
-                                    print("Data List View Unable to complete request")
+                                    writeError = .unableToCompleteRequest
+                                    isShowingAlert = true
                                 }
                             } else {
                                 do {
@@ -74,9 +91,11 @@ struct HealthDataListView: View {
                                     try await hkManager.fetchweightForDiffentials()
                                     isShowingAddData = false
                                 } catch STError.sharingDenied(let quantityType) {
-                                    print("Sharing denied for \(quantityType)")
+                                    writeError = .sharingDenied(quantityType: quantityType)
+                                    isShowingAlert = true
                                 } catch {
-                                    print("Data List View Unable to complete request")
+                                    writeError = .unableToCompleteRequest
+                                    isShowingAlert = true
                                 }
                             }
                         }

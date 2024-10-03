@@ -11,7 +11,6 @@ import Charts
 enum HealthMetricContext: CaseIterable, Identifiable {
     case steps, weight
     var id: Self { self }
-    
     var title: String {
         switch self {
         case .steps: 
@@ -27,6 +26,8 @@ struct DashboardView: View {
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @State private var isShowingPermissionPriming = false
     @State private var selectedStat: HealthMetricContext = .steps
+    @State private var isShowingAlert = false
+    @State private var fetchError: STError = .noData
     
     var isSteps: Bool { selectedStat == .steps }
     
@@ -61,18 +62,24 @@ struct DashboardView: View {
                 } catch STError.authNotDetermined {
                     isShowingPermissionPriming = true
                 } catch STError.noData {
-                    print("no data error")
+                    fetchError = .noData
+                    isShowingAlert = true
                 } catch STError.sharingDenied(let quantityType) {
                     print("sharin denied for \(quantityType)")
                 } catch {
-                    print("unable to complete request")
+                    fetchError = .unableToCompleteRequest
+                    isShowingAlert = true
                 }
             }
-            
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in HealthDataListView(metric: metric)
             }
             .sheet(isPresented: $isShowingPermissionPriming, onDismiss: {}, content: { HealthKitPermissionPrimingView() })
+            .alert(isPresented: $isShowingAlert, error: fetchError) { fetchError in
+                // Actions
+            } message: { fetchError in
+                Text(fetchError.failureReason)
+            }
         }
         .tint(isSteps ? .pink : .indigo)
     }
