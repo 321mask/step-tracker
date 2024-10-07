@@ -26,11 +26,11 @@ struct MockData {
         }
         return array
     }
-    static var weightDiffs: [WeekdayChartData] {
-        var array: [WeekdayChartData] = []
+    static var weightDiffs: [HealthMetric] {
+        var array: [HealthMetric] = []
     
         for i in 0..<7 {
-            let diff = WeekdayChartData(date: Calendar.current.date(byAdding: .day, value: -i, to: .now)!, value: .random(in: -3...3))
+            let diff = HealthMetric(date: Calendar.current.date(byAdding: .day, value: -i, to: .now)!, value: .random(in: -3...3))
             array.append(diff)
         }
         return array

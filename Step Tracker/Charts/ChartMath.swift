@@ -9,10 +9,10 @@ import Foundation
 import Algorithms
 
 struct ChartMath {
-    static func averageWeekdayCount(for metric: [HealthMetric]) -> [WeekdayChartData] {
+    static func averageWeekdayCount(for metric: [HealthMetric]) -> [DateValueChartData] {
         let sortedByWeekday = metric.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedByWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
-        var weekdayChartData: [WeekdayChartData] = []
+        var weekdayChartData: [DateValueChartData] = []
         for array in weekdayArray {
             guard let firstValue = array.first else { continue }
             let total = array.reduce(0) { $0 + $1.value }
@@ -21,7 +21,7 @@ struct ChartMath {
         }
         return weekdayChartData
     }
-    static func averageDailyWeightDiff(for weights: [HealthMetric]) -> [WeekdayChartData] {
+    static func averageDailyWeightDiff(for weights: [HealthMetric]) -> [DateValueChartData] {
         var diffValues: [(date: Date, value: Double)] = []
         guard weights.count > 1 else { return [] }
         for i in 1..<weights.count {
@@ -29,7 +29,7 @@ struct ChartMath {
             let diff = weights[i].value - weights[i - 1].value
             diffValues.append((date: date, value: diff))
         }
-        var weekdayChartData: [WeekdayChartData] = []
+        var weekdayChartData: [DateValueChartData] = []
         let sortedByWeekday = diffValues.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedByWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         for array in weekdayArray {
