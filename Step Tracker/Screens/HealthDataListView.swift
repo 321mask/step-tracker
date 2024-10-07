@@ -9,9 +9,11 @@ import SwiftUI
 
 struct HealthDataListView: View {
     @Environment(HealthKitManager.self) private var hkManager
-    @State var isShowingAddData = false
-    @State var addDataDate: Date = .now
-    @State var valuetoAdd: String = ""
+    @State private var isShowingAddData = false
+    @State private var addDataDate: Date = .now
+    @State private var valuetoAdd: String = ""
+    @State private var isShowingAlert = true
+    @State private var writeError: STError = .noData
     var metric: HealthMetricContext
     var listData: [HealthMetric] {
         metric == .steps ? hkManager.stepData : hkManager.weightData
@@ -48,6 +50,19 @@ struct HealthDataListView: View {
                 }
             }
             .navigationTitle(metric.title)
+            .alert(isPresented: $isShowingAlert, error: writeError) { writeError in
+                switch writeError {
+                case .authNotDetermined, .noData, .unableToCompleteRequest, .invalidValue:
+                    EmptyView()
+                case .sharingDenied(_):
+                    Button("Settings") {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }
+                    Button("Cancel", role: .cancel) { }
+                }
+            } message: { writeError in
+                Text(writeError.failureReason)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Dismiss") {
@@ -56,16 +71,38 @@ struct HealthDataListView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
+                        guard let value = Double(valuetoAdd) else {
+                            writeError = .invalidValue
+                            isShowingAlert = true
+                            valuetoAdd = ""
+                            return
+                        }
                         Task {
                             if metric == .steps {
-                                await hkManager.addStepData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
-                                await hkManager.fetchStepCount()
-                                isShowingAddData = false
+                                do {
+                                    try await hkManager.addStepData(for: addDataDate, value: value)
+                                    try await hkManager.fetchStepCount()
+                                    isShowingAddData = false
+                                } catch STError.sharingDenied(let quantityType) {
+                                    writeError = .sharingDenied(quantityType: quantityType)
+                                    isShowingAlert = true
+                                } catch {
+                                    writeError = .unableToCompleteRequest
+                                    isShowingAlert = true
+                                }
                             } else {
-                                await hkManager.addWeightData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
-                                await hkManager.fetchweightCount()
-                                await hkManager.fetchweightForDiffentials()
-                                isShowingAddData = false
+                                do {
+                                    try await hkManager.addWeightData(for: addDataDate, value: value)
+                                    try await hkManager.fetchweightCount()
+                                    try await hkManager.fetchweightForDiffentials()
+                                    isShowingAddData = false
+                                } catch STError.sharingDenied(let quantityType) {
+                                    writeError = .sharingDenied(quantityType: quantityType)
+                                    isShowingAlert = true
+                                } catch {
+                                    writeError = .unableToCompleteRequest
+                                    isShowingAlert = true
+                                }
                             }
                         }
                     }
