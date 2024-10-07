@@ -52,9 +52,9 @@ struct HealthDataListView: View {
             .navigationTitle(metric.title)
             .alert(isPresented: $isShowingAlert, error: writeError) { writeError in
                 switch writeError {
-                case .authNotDetermined, .noData, .unableToCompleteRequest:
+                case .authNotDetermined, .noData, .unableToCompleteRequest, .invalidValue:
                     EmptyView()
-                case .sharingDenied(let quantityType):
+                case .sharingDenied(_):
                     Button("Settings") {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }
@@ -71,10 +71,16 @@ struct HealthDataListView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Data") {
+                        guard let value = Double(valuetoAdd) else {
+                            writeError = .invalidValue
+                            isShowingAlert = true
+                            valuetoAdd = ""
+                            return
+                        }
                         Task {
                             if metric == .steps {
                                 do {
-                                    try await hkManager.addStepData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
+                                    try await hkManager.addStepData(for: addDataDate, value: value)
                                     try await hkManager.fetchStepCount()
                                     isShowingAddData = false
                                 } catch STError.sharingDenied(let quantityType) {
@@ -86,7 +92,7 @@ struct HealthDataListView: View {
                                 }
                             } else {
                                 do {
-                                    try await hkManager.addWeightData(for: addDataDate, value: Double(valuetoAdd) ?? 0.0)
+                                    try await hkManager.addWeightData(for: addDataDate, value: value)
                                     try await hkManager.fetchweightCount()
                                     try await hkManager.fetchweightForDiffentials()
                                     isShowingAddData = false
