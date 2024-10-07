@@ -59,42 +59,45 @@ struct WeightLineChart: View {
             }
             .foregroundStyle(.secondary)
             .padding(.bottom, 12)
-            
-            Chart {
-                if let selectedHealthMetric {
-                    RuleMark(x: .value("Selected Metric", selectedHealthMetric.date, unit: .day))
-                        .foregroundStyle(Color.secondary.opacity(0.3))
-                        .offset(y: -10)
-                        .annotation(position: .top, spacing: 0, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) { annotationView }
-                }
-                RuleMark(y: .value("Goal", 155))
-                    .foregroundStyle(.mint)
-                    .lineStyle(.init(lineWidth: 1, dash: [5]))
-                ForEach(chartData) { weight in
-                    AreaMark(x: .value("Day", weight.date, unit: .day), 
-                             yStart: .value("Value", weight.value), 
-                             yEnd: .value("Min Value", minValue))
+            if chartData.isEmpty {
+                ChartEmptyView(systemImageName: "chart.line.downtrend.xyaxis", title: "No Data", discription: "There is no weight data from the Health App.")
+            } else {
+                Chart {
+                    if let selectedHealthMetric {
+                        RuleMark(x: .value("Selected Metric", selectedHealthMetric.date, unit: .day))
+                            .foregroundStyle(Color.secondary.opacity(0.3))
+                            .offset(y: -10)
+                            .annotation(position: .top, spacing: 0, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) { annotationView }
+                    }
+                    RuleMark(y: .value("Goal", 155))
+                        .foregroundStyle(.mint)
+                        .lineStyle(.init(lineWidth: 1, dash: [5]))
+                    ForEach(chartData) { weight in
+                        AreaMark(x: .value("Day", weight.date, unit: .day),
+                                 yStart: .value("Value", weight.value),
+                                 yEnd: .value("Min Value", minValue))
                         .foregroundStyle(Gradient(colors: [.indigo.opacity(0.5), .clear]))
                         .interpolationMethod(.catmullRom)
-                    LineMark(x: .value("Day", weight.date, unit: .day), y: .value("Value", weight.value))
-                        .foregroundStyle(.indigo)
-                        .interpolationMethod(.catmullRom)
-                        .symbol(.circle)
+                        LineMark(x: .value("Day", weight.date, unit: .day), y: .value("Value", weight.value))
+                            .foregroundStyle(.indigo)
+                            .interpolationMethod(.catmullRom)
+                            .symbol(.circle)
+                    }
                 }
-            }
-            .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
-            .frame(height: 150)
-            .chartYScale(domain: .automatic(includesZero: false))
-            .chartXAxis {
-                AxisMarks {
-                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
+                .frame(height: 150)
+                .chartYScale(domain: .automatic(includesZero: false))
+                .chartXAxis {
+                    AxisMarks {
+                        AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                    }
                 }
-            }
-            .chartYAxis {
-                AxisMarks { value in
-                    AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.3))
-                    AxisValueLabel()
+                .chartYAxis {
+                    AxisMarks { value in
+                        AxisGridLine()
+                            .foregroundStyle(Color.secondary.opacity(0.3))
+                        AxisValueLabel()
+                    }
                 }
             }
         }
