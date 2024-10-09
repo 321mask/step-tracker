@@ -13,6 +13,7 @@
 		8823EDD22C6BA57300DEA8BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8823EDD12C6BA57300DEA8BA /* Assets.xcassets */; };
 		8823EDD52C6BA57300DEA8BA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8823EDD42C6BA57300DEA8BA /* Preview Assets.xcassets */; };
 		883A20432CB577B400FAEB15 /* STError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A20422CB577B400FAEB15 /* STError.swift */; };
+		883A20452CB6DB1700FAEB15 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883A20442CB6DB1700FAEB15 /* Array+Ext.swift */; };
 		8842E1712C81D64500735DBF /* HealthMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8842E1702C81D64500735DBF /* HealthMetric.swift */; };
 		885D1DC12C6F4D6A009B6788 /* HealthDataListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D1DC02C6F4D6A009B6788 /* HealthDataListView.swift */; };
 		88B4D7392CB4396C00F717F8 /* ChartContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B4D7382CB4396C00F717F8 /* ChartContainer.swift */; };
@@ -40,6 +41,7 @@
 		8823EDD12C6BA57300DEA8BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8823EDD42C6BA57300DEA8BA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		883A20422CB577B400FAEB15 /* STError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STError.swift; sourceTree = "<group>"; };
+		883A20442CB6DB1700FAEB15 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		8842E1702C81D64500735DBF /* HealthMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetric.swift; sourceTree = "<group>"; };
 		885D1DC02C6F4D6A009B6788 /* HealthDataListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataListView.swift; sourceTree = "<group>"; };
 		88B4D7382CB4396C00F717F8 /* ChartContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartContainer.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				88E082152C907F6200CD8873 /* Date+ext.swift */,
+				883A20442CB6DB1700FAEB15 /* Array+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				8842E1712C81D64500735DBF /* HealthMetric.swift in Sources */,
 				88E082112C907E0B00CD8873 /* ChartDataTypes.swift in Sources */,
 				88E0821B2C917ED100CD8873 /* StepPieChart.swift in Sources */,
+				883A20452CB6DB1700FAEB15 /* Array+Ext.swift in Sources */,
 				88E1D7442C92D823002F3E50 /* WeightLineChart.swift in Sources */,
 				88E082162C907F6200CD8873 /* Date+ext.swift in Sources */,
 			);
