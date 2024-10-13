@@ -23,8 +23,7 @@ struct WeightLineChart: View {
     }
     
     var body: some View {
-        let config = ChartContainerCongiguration(title: "Weight", symbol: "figure", subtitle: "Avg: \(averageWeight.formatted(.number.precision(.fractionLength(1)))) kg", context: .weight, isNav: true)
-        ChartContainer(config: config) {
+        ChartContainer(chartType: .weightLine(average: averageWeight)) {
             Chart {
                 if let selectedData {
                     ChartAnnotationView(data: selectedData, context: .weight)
