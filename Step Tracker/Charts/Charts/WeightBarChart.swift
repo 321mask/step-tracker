@@ -23,9 +23,13 @@ struct WeightBarChart: View {
                     ChartAnnotationView(data: selectedData, context: .weight)
                 }
                 ForEach(chartData) { weight in
-                    BarMark(x: .value("Date", weight.date),
-                            y: .value("Weight change", weight.value))
-                    .foregroundStyle(weight.value >= 0 ? Color.indigo.gradient : Color.mint.gradient)
+                    Plot {
+                        BarMark(x: .value("Date", weight.date),
+                                y: .value("Weight change", weight.value))
+                        .foregroundStyle(weight.value >= 0 ? Color.indigo.gradient : Color.mint.gradient)
+                    }
+                    .accessibilityLabel(weight.date.weekdayTitle)
+                    .accessibilityValue("\(weight.value.formatted(.number.precision(.fractionLength(1)).sign(strategy: .always))) kilograms")
                 }
             }
             .frame(height: 150)

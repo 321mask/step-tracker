@@ -28,9 +28,9 @@ struct ChartContainer<Content: View>: View {
     }
     var context: HealthMetricContext {
         switch chartType {
-        case .stepBar(_), .weightLine(_):
+        case .stepBar(_), .stepWeekdayPie:
             .steps
-        case .stepWeekdayPie, .weightDiffBar:
+        case .weightLine(_), .weightDiffBar:
             .weight
         }
     }
@@ -68,6 +68,18 @@ struct ChartContainer<Content: View>: View {
             "Per Weekday (Last 28 Days)"
         }
     }
+    var accessibilityLabel: String {
+        switch chartType {
+        case .stepBar(let average):
+            "Bar chart, step count, last 28 days, average steps per day: \(average) steps!"
+        case .stepWeekdayPie:
+            "Pie Chart, average steps per weekday"
+        case .weightLine(let average):
+            "Line Chart, weight, average weight: \(average.formatted(.number.precision(.fractionLength(1)))) kilograms"
+        case .weightDiffBar:
+            "Bar Chart, average weight difference per weekday"
+        }
+    }
     var body: some View {
         VStack(alignment: .leading) {
             if isNav {
@@ -90,6 +102,9 @@ struct ChartContainer<Content: View>: View {
             Text(subtitle)
                 .font(.caption)
         }
+        .accessibilityAddTraits(.isHeader)
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityElement(children: .ignore)
     }
     var navigationLinkView: some View {
         NavigationLink(value: context) {
@@ -99,6 +114,9 @@ struct ChartContainer<Content: View>: View {
                 Image(systemName: "chevron.right")
             }
         }
+        .foregroundStyle(.secondary)
+        .padding(.bottom, 12)
+        .accessibilityHint("Tap for data in list view")
     }
 }
 
