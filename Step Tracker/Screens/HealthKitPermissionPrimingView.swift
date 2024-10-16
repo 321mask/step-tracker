@@ -40,7 +40,6 @@ add new step or weight data to Apple Health from this app. Your data is private 
             .tint(.pink)
         }
         .padding(30)
-        .interactiveDismissDisabled()
         .healthDataAccessRequest(store: hkManager.store, shareTypes: hkManager.types, readTypes: hkManager.types, trigger: isShowingHealthKitPermissions) { result in
             switch result {
             case .success:

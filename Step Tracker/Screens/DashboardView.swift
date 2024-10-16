@@ -23,13 +23,10 @@ enum HealthMetricContext: CaseIterable, Identifiable {
 
 struct DashboardView: View {
     @Environment(HealthKitManager.self) private var hkManager
-    @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @State private var isShowingPermissionPriming = false
     @State private var selectedStat: HealthMetricContext = .steps
     @State private var isShowingAlert = false
     @State private var fetchError: STError = .noData
-    
-    var isSteps: Bool { selectedStat == .steps }
     
     var body: some View {
         NavigationStack {
@@ -44,44 +41,50 @@ struct DashboardView: View {
                     switch selectedStat {
                     case .steps:
                         StepBarChart(chartData: ChartHelper.convert(data: hkManager.stepData))
-                        StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
+                        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: hkManager.stepData))
                     case .weight:
                         WeightLineChart(chartData: ChartHelper.convert(data: hkManager.weightData))
-                        WeightBarChart(chartData: ChartMath.averageDailyWeightDiff(for: hkManager.weightDiffData))
+                        WeightBarChart(chartData: ChartHelper.averageDailyWeightDiff(for: hkManager.weightDiffData))
                     }
                 }
             }
             .padding()
-            .task {
-                do {
-                    try await hkManager.fetchStepCount()
-                    try await hkManager.fetchweightCount()
-                    try await hkManager.fetchweightForDiffentials()
-                    //                await hkManager.addSimulatorData()
-                    
-                } catch STError.authNotDetermined {
-                    isShowingPermissionPriming = true
-                } catch STError.noData {
-                    fetchError = .noData
-                    isShowingAlert = true
-                } catch STError.sharingDenied(let quantityType) {
-                    print("sharin denied for \(quantityType)")
-                } catch {
-                    fetchError = .unableToCompleteRequest
-                    isShowingAlert = true
-                }
-            }
+            .task { fetchHelthData() }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in HealthDataListView(metric: metric)
             }
-            .sheet(isPresented: $isShowingPermissionPriming, onDismiss: {}, content: { HealthKitPermissionPrimingView() })
+            .fullScreenCover(isPresented: $isShowingPermissionPriming, onDismiss: { fetchHelthData() }, content: { HealthKitPermissionPrimingView() })
             .alert(isPresented: $isShowingAlert, error: fetchError) { fetchError in
                 // Actions
             } message: { fetchError in
                 Text(fetchError.failureReason)
             }
         }
-        .tint(isSteps ? .pink : .indigo)
+        .tint(selectedStat == .steps ? .pink : .indigo)
+    }
+    private func fetchHelthData() {
+        Task {
+            do {
+                async let steps = hkManager.fetchStepCount()
+                async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
+                async let weightsForBarChart = hkManager.fetchWeights(daysBack: 29)
+                
+                hkManager.stepData = try await steps
+                hkManager.weightData = try await weightsForLineChart
+                hkManager.weightDiffData = try await weightsForBarChart
+//                await hkManager.addSimulatorData()
+            } catch STError.authNotDetermined {
+                isShowingPermissionPriming = true
+            } catch STError.noData {
+                fetchError = .noData
+                isShowingAlert = true
+            } catch STError.sharingDenied(let quantityType) {
+                print("sharin denied for \(quantityType)")
+            } catch {
+                fetchError = .unableToCompleteRequest
+                isShowingAlert = true
+            }
+        }
     }
 }
 
