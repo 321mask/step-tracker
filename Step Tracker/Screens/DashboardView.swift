@@ -22,6 +22,7 @@ enum HealthMetricContext: CaseIterable, Identifiable {
 }
 
 struct DashboardView: View {
+    @Environment(HealthKitData.self) private var hkData
     @Environment(HealthKitManager.self) private var hkManager
     @State private var isShowingPermissionPriming = false
     @State private var selectedStat: HealthMetricContext = .steps
@@ -40,11 +41,11 @@ struct DashboardView: View {
                     .pickerStyle(.segmented)
                     switch selectedStat {
                     case .steps:
-                        StepBarChart(chartData: ChartHelper.convert(data: hkManager.stepData))
-                        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: hkManager.stepData))
+                        StepBarChart(chartData: ChartHelper.convert(data: hkData.stepData))
+                        StepPieChart(chartData: ChartHelper.averageWeekdayCount(for: hkData.stepData))
                     case .weight:
-                        WeightLineChart(chartData: ChartHelper.convert(data: hkManager.weightData))
-                        WeightBarChart(chartData: ChartHelper.averageDailyWeightDiff(for: hkManager.weightDiffData))
+                        WeightLineChart(chartData: ChartHelper.convert(data: hkData.weightData))
+                        WeightBarChart(chartData: ChartHelper.averageDailyWeightDiff(for: hkData.weightDiffData))
                     }
                 }
             }
@@ -69,10 +70,9 @@ struct DashboardView: View {
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
                 async let weightsForBarChart = hkManager.fetchWeights(daysBack: 29)
                 
-                hkManager.stepData = try await steps
-                hkManager.weightData = try await weightsForLineChart
-                hkManager.weightDiffData = try await weightsForBarChart
-//                await hkManager.addSimulatorData()
+                hkData.stepData = try await steps
+                hkData.weightData = try await weightsForLineChart
+                hkData.weightDiffData = try await weightsForBarChart
             } catch STError.authNotDetermined {
                 isShowingPermissionPriming = true
             } catch STError.noData {

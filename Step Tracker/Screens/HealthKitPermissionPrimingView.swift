@@ -16,6 +16,7 @@ data in interactive charts.
 You can also
 add new step or weight data to Apple Health from this app. Your data is private and secured.
 """
+    @Environment(HealthKitData.self) private var hkData
     @Environment(HealthKitManager.self) private var hkManager
     @Environment(\.dismiss) private var dismiss
     @State private var isShowingHealthKitPermissions = false
@@ -43,9 +44,9 @@ add new step or weight data to Apple Health from this app. Your data is private 
         .healthDataAccessRequest(store: hkManager.store, shareTypes: hkManager.types, readTypes: hkManager.types, trigger: isShowingHealthKitPermissions) { result in
             switch result {
             case .success:
-                dismiss()
+                Task { @MainActor in dismiss() }
             case .failure:
-                dismiss()
+                Task { @MainActor in dismiss() }
             }
         }
     }

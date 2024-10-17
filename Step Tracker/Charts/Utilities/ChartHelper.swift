@@ -34,8 +34,7 @@ struct ChartHelper {
         var weekdayChartData: [DateValueChartData] = []
         for array in weekdayArray {
             guard let firstValue = array.first else { continue }
-            let total = array.reduce(0) { $0 + $1.value }
-            let avgSteps = total/Double(array.count)
+            let avgSteps = array.map { $0.value }.average
             weekdayChartData.append(.init(date: firstValue.date, value: avgSteps))
         }
         return weekdayChartData
@@ -56,8 +55,7 @@ struct ChartHelper {
         let weekdayArray = sortedByWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         for array in weekdayArray {
             guard let firstValue = array.first else { continue }
-            let total = array.reduce(0) { $0 + $1.value }
-            let avgWeightDiff = total/Double(array.count)
+            let avgWeightDiff = array.map { $0.value }.average
             weekdayChartData.append(.init(date: firstValue.date, value: avgWeightDiff))
         }
         return weekdayChartData
