@@ -73,7 +73,6 @@ struct DashboardView: View {
                 hkData.stepData = try await steps
                 hkData.weightData = try await weightsForLineChart
                 hkData.weightDiffData = try await weightsForBarChart
-//                await hkManager.addSimulatorData()
             } catch STError.authNotDetermined {
                 isShowingPermissionPriming = true
             } catch STError.noData {
