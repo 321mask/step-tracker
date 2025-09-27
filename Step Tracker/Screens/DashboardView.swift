@@ -50,21 +50,29 @@ struct DashboardView: View {
                 }
             }
             .padding()
-            .task { fetchHelthData() }
+            .task { await fetchHealthDataAsync() }
             .navigationTitle("Dashboard")
             .navigationDestination(for: HealthMetricContext.self) { metric in HealthDataListView(metric: metric)
             }
-            .fullScreenCover(isPresented: $isShowingPermissionPriming, onDismiss: { fetchHelthData() }, content: { HealthKitPermissionPrimingView() })
+            .refreshable {
+                await fetchHealthDataAsync()
+            }
+            .fullScreenCover(isPresented: $isShowingPermissionPriming, onDismiss: { Task { await fetchHealthDataAsync() } }, content: { HealthKitPermissionPrimingView() })
             .alert(isPresented: $isShowingAlert, error: fetchError) { fetchError in
                 // Actions
+                Button("Retry") {
+                    isShowingPermissionPriming = true
+                    Task { await fetchHealthDataAsync() }
+                }
             } message: { fetchError in
                 Text(fetchError.failureReason)
             }
         }
         .tint(selectedStat == .steps ? .pink : .indigo)
     }
-    private func fetchHelthData() {
-        Task {
+    @MainActor
+    private func fetchHealthDataAsync() async {
+        
             do {
                 async let steps = hkManager.fetchStepCount()
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
@@ -79,16 +87,17 @@ struct DashboardView: View {
                 fetchError = .noData
                 isShowingAlert = true
             } catch STError.sharingDenied(let quantityType) {
-                print("sharin denied for \(quantityType)")
+                print("sharing denied for \(quantityType)")
             } catch {
                 fetchError = .unableToCompleteRequest
                 isShowingAlert = true
             }
-        }
+        
     }
 }
 
 #Preview {
     DashboardView()
         .environment(HealthKitManager())
+        .environment(HealthKitData())
 }
