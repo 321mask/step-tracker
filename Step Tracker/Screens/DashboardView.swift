@@ -72,7 +72,6 @@ struct DashboardView: View {
     }
     @MainActor
     private func fetchHealthDataAsync() async {
-        
             do {
                 async let steps = hkManager.fetchStepCount()
                 async let weightsForLineChart = hkManager.fetchWeights(daysBack: 28)
@@ -92,7 +91,6 @@ struct DashboardView: View {
                 fetchError = .unableToCompleteRequest
                 isShowingAlert = true
             }
-        
     }
 }
 
