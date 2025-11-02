@@ -34,11 +34,19 @@ add new step or weight data to Apple Health from this app. Your data is private 
                 Text(description)
                     .foregroundStyle(.secondary)
             }
-            Button("Connect Apple Health") {
-                isShowingHealthKitPermissions = true
+            if #available(iOS 26, *) {
+                Button("Connect Apple Health") {
+                    isShowingHealthKitPermissions = true
+                }
+                .buttonStyle(.glassProminent)
+                .tint(.pink)
+            } else {
+                Button("Connect Apple Health") {
+                    isShowingHealthKitPermissions = true
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.pink)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.pink)
         }
         .padding(30)
         .healthDataAccessRequest(store: hkManager.store, shareTypes: hkManager.types, readTypes: hkManager.types, trigger: isShowingHealthKitPermissions) { result in
