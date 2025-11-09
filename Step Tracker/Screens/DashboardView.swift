@@ -84,7 +84,6 @@ struct DashboardView: View {
         }
         .tint(navbarTint)
     }
-    @MainActor
     private func fetchHealthDataAsync() async {
             do {
                 async let steps = hkManager.fetchStepCount()

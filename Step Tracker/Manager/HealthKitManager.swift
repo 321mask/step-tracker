@@ -10,7 +10,6 @@ import Observation
 import HealthKit
 
 @Observable
-@MainActor
 final class HealthKitData: Sendable {
     var stepData: [HealthMetric] = []
     var weightData: [HealthMetric] = []

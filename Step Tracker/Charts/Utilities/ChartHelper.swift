@@ -29,7 +29,7 @@ struct ChartHelper {
     /// - Parameter metric: Array of ``HealthMetric`` data.
     /// - Returns: Array of chart data.
     static func averageWeekdayCount(for metric: [HealthMetric]) -> [DateValueChartData] {
-        let sortedByWeekday = metric.sorted(using: KeyPathComparator(\.date.weekdayInt))
+        let sortedByWeekday = metric.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedByWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         var weekdayChartData: [DateValueChartData] = []
         for array in weekdayArray {
@@ -51,7 +51,7 @@ struct ChartHelper {
             diffValues.append((date: date, value: diff))
         }
         var weekdayChartData: [DateValueChartData] = []
-        let sortedByWeekday = diffValues.sorted(using: KeyPathComparator(\.date.weekdayInt))
+        let sortedByWeekday = diffValues.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedByWeekday.chunked { $0.date.weekdayInt == $1.date.weekdayInt }
         for array in weekdayArray {
             guard let firstValue = array.first else { continue }
