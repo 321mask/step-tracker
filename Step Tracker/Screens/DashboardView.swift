@@ -29,6 +29,10 @@ struct DashboardView: View {
     @State private var isShowingAlert = false
     @State private var fetchError: STError = .noData
     
+    var backgroundColor: Color {
+        selectedStat == .steps ? .pink : .indigo
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -48,10 +52,12 @@ struct DashboardView: View {
                         WeightBarChart(chartData: ChartHelper.averageDailyWeightDiff(for: hkData.weightDiffData))
                     }
                 }
+                .padding()
             }
-            .padding()
             .task { await fetchHealthDataAsync() }
             .navigationTitle("Dashboard")
+            .toolbarTitleDisplayMode(.inlineLarge)
+            .background(LinearGradient(colors: [backgroundColor.opacity(0.25), .clear], startPoint: .topLeading, endPoint: .bottomTrailing))
             .navigationDestination(for: HealthMetricContext.self) { metric in HealthDataListView(metric: metric)
             }
             .refreshable {

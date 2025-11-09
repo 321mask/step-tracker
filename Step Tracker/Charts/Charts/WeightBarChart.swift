@@ -28,6 +28,7 @@ struct WeightBarChart: View {
                                 y: .value("Weight change", weight.value))
                         .foregroundStyle(weight.value >= 0 ? Color.indigo.gradient : Color.mint.gradient)
                     }
+                    .cornerRadius(3)
                     .accessibilityLabel(weight.date.weekdayTitle)
                     .accessibilityValue("\(weight.value.formatted(.number.precision(.fractionLength(1)).sign(strategy: .always()))) kilograms")
                 }

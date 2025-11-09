@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AE39EB52EC0F90B00DF2F69 /* CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE39EB42EC0F90B00DF2F69 /* CustomModifiers.swift */; };
 		880D185C2C78CFA70045B789 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880D185B2C78CFA70045B789 /* HealthKitManager.swift */; };
 		8823EDCE2C6BA57200DEA8BA /* Step_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823EDCD2C6BA57200DEA8BA /* Step_TrackerApp.swift */; };
 		8823EDD02C6BA57200DEA8BA /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823EDCF2C6BA57200DEA8BA /* DashboardView.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3AE39EB42EC0F90B00DF2F69 /* CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModifiers.swift; sourceTree = "<group>"; };
 		880D185A2C78CE650045B789 /* Step Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Step Tracker.entitlements"; sourceTree = "<group>"; };
 		880D185B2C78CFA70045B789 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		8823EDCA2C6BA57200DEA8BA /* Step Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Step Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +216,7 @@
 				88E082122C907F2300CD8873 /* Extensions */,
 				88E1D7462C92DB13002F3E50 /* MockData.swift */,
 				883A20422CB577B400FAEB15 /* STError.swift */,
+				3AE39EB42EC0F90B00DF2F69 /* CustomModifiers.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				885D1DC12C6F4D6A009B6788 /* HealthDataListView.swift in Sources */,
+				3AE39EB52EC0F90B00DF2F69 /* CustomModifiers.swift in Sources */,
 				8823EDD02C6BA57200DEA8BA /* DashboardView.swift in Sources */,
 				88E1D7492C931489002F3E50 /* WeightBarChart.swift in Sources */,
 				88E082092C90732100CD8873 /* StepBarChart.swift in Sources */,
