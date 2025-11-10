@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A2B35962EC1F6110093234E /* DataAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B35952EC1F6110093234E /* DataAnalyzer.swift */; };
 		3AE39EB52EC0F90B00DF2F69 /* CustomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE39EB42EC0F90B00DF2F69 /* CustomModifiers.swift */; };
 		880D185C2C78CFA70045B789 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880D185B2C78CFA70045B789 /* HealthKitManager.swift */; };
 		8823EDCE2C6BA57200DEA8BA /* Step_TrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823EDCD2C6BA57200DEA8BA /* Step_TrackerApp.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A2B35952EC1F6110093234E /* DataAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalyzer.swift; sourceTree = "<group>"; };
 		3AE39EB42EC0F90B00DF2F69 /* CustomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModifiers.swift; sourceTree = "<group>"; };
 		880D185A2C78CE650045B789 /* Step Tracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Step Tracker.entitlements"; sourceTree = "<group>"; };
 		880D185B2C78CFA70045B789 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				88E1D7462C92DB13002F3E50 /* MockData.swift */,
 				883A20422CB577B400FAEB15 /* STError.swift */,
 				3AE39EB42EC0F90B00DF2F69 /* CustomModifiers.swift */,
+				3A2B35952EC1F6110093234E /* DataAnalyzer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				88E1D7492C931489002F3E50 /* WeightBarChart.swift in Sources */,
 				88E082092C90732100CD8873 /* StepBarChart.swift in Sources */,
 				88E291562CB53F4400FAB874 /* ChartAnnotationView.swift in Sources */,
+				3A2B35962EC1F6110093234E /* DataAnalyzer.swift in Sources */,
 				88B4D7392CB4396C00F717F8 /* ChartContainer.swift in Sources */,
 				88E1D7472C92DB13002F3E50 /* MockData.swift in Sources */,
 				88FD3EBE2CB4081500E6589A /* ChartEmptyView.swift in Sources */,
